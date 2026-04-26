@@ -1,0 +1,33 @@
+# API & Web
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+python-multipart==0.0.9
+pydantic==2.7.1
+pydantic-settings==2.3.4
+
+# Database — SQLite (built-in)
+# numpy is used for manual vector similarity
+
+# LLM
+groq==0.9.0
+
+# Document Parsing
+pdfplumber==0.11.0
+pymupdf==1.24.4
+python-docx==1.1.2
+openpyxl==3.1.4
+beautifulsoup4==4.12.3
+lxml==5.2.2
+
+# Text Processing
+rapidfuzz==3.9.3
+
+# Data
+pandas==2.2.2
+numpy==1.26.4
+
+# Utils
+python-dotenv==1.0.1
+requests==2.32.2
+tqdm==4.66.4
+aiofiles==23.2.1

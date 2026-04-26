@@ -1,0 +1,7 @@
+# Optional local ML dependencies for full semantic embedding + cross-encoder reranking.
+# Install these for local/offline high-quality retrieval pipelines:
+#   pip install -r backend/requirements-ml.txt
+
+sentence-transformers==3.0.1
+torch==2.3.0
+transformers==4.41.2

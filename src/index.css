@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* MediFind — Calm Clinical Design System
+   Linear/Vercel-inspired. Deep navy ink, soft surfaces, single electric accent.
+   All colors MUST be HSL. */
+
+@layer base {
+  :root {
+    /* Surfaces — Warm Ivory & Alabaster */
+    --background: 45 23% 96%;
+    --foreground: 156 33% 12%;
+    --surface: 0 0% 100%;
+    --surface-muted: 45 15% 93%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 156 33% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 156 33% 12%;
+
+    /* Primary — Deep Pine Green */
+    --primary: 158 38% 18%;
+    --primary-foreground: 60 33% 99%;
+
+    /* Accent — Terracotta / Burnt Orange */
+    --accent: 11 67% 54%;
+    --accent-foreground: 0 0% 100%;
+    --accent-soft: 11 67% 94%;
+
+    --secondary: 45 15% 93%;
+    --secondary-foreground: 156 33% 12%;
+
+    --muted: 45 15% 93%;
+    --muted-foreground: 156 10% 45%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 60% 35%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 35 90% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --emergency: 11 67% 54%;
+    --emergency-foreground: 0 0% 100%;
+
+    --border: 45 10% 88%;
+    --input: 45 10% 88%;
+    --ring: 11 67% 54%;
+
+    --radius: 0.5rem; /* sharper, more editorial radius */
+
+    /* Gradients & shadows */
+    --gradient-hero: radial-gradient(circle at 50% 0%, hsl(158 38% 18% / 0.04) 0%, transparent 60%);
+    --gradient-accent: linear-gradient(135deg, hsl(11 67% 54%) 0%, hsl(15 70% 60%) 100%);
+    --gradient-ink: linear-gradient(180deg, hsl(222 47% 11%) 0%, hsl(222 47% 16%) 100%);
+
+    --shadow-xs: 0 1px 2px 0 hsl(222 47% 11% / 0.04);
+    --shadow-sm: 0 1px 3px 0 hsl(222 47% 11% / 0.06), 0 1px 2px -1px hsl(222 47% 11% / 0.04);
+    --shadow-md: 0 4px 12px -2px hsl(222 47% 11% / 0.08), 0 2px 4px -2px hsl(222 47% 11% / 0.04);
+    --shadow-lg: 0 12px 32px -8px hsl(222 47% 11% / 0.12), 0 4px 8px -4px hsl(222 47% 11% / 0.06);
+    --shadow-glow: 0 0 0 1px hsl(174 72% 42% / 0.2), 0 8px 24px -4px hsl(174 72% 42% / 0.2);
+
+    --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+    --surface: 222 47% 9%;
+    --surface-muted: 222 30% 13%;
+    --card: 222 47% 9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 222 30% 14%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 222 30% 14%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 174 72% 48%;
+    --accent-foreground: 222 47% 6%;
+    --accent-soft: 174 50% 14%;
+    --destructive: 0 62% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 222 30% 18%;
+    --input: 222 30% 18%;
+    --ring: 174 72% 48%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: 'cv11', 'ss01', 'ss03';
+  }
+
+  .font-serif {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-feature-settings: 'liga', 'dlig';
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  /* Subtle grid background utility */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .bg-dots {
+    background-image: radial-gradient(hsl(var(--border)) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* Leaflet container fix */
+  .leaflet-container {
+    background: hsl(var(--surface-muted));
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 6px; border: 2px solid hsl(var(--background)); }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.5); }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .animate-shimmer {
+    background: linear-gradient(90deg, transparent, hsl(var(--accent) / 0.1), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 hsl(var(--emergency) / 0.5); }
+    50% { box-shadow: 0 0 0 12px hsl(var(--emergency) / 0); }
+  }
+  .animate-pulse-glow { animation: pulse-glow 2s infinite; }
+
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in-up { animation: fade-in-up 0.4s cubic-bezier(0.4, 0, 0.2, 1) both; }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* Leaflet override */
+.leaflet-popup-content-wrapper {
+
+  border-radius: 0.75rem !important;
+  box-shadow: var(--shadow-lg) !important;
+  padding: 0 !important;
+}
+.leaflet-popup-content {
+  margin: 0 !important;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.leaflet-popup-tip {
+  box-shadow: var(--shadow-md) !important;
+}
+.leaflet-control-zoom a {
+  background: hsl(var(--surface)) !important;
+  color: hsl(var(--foreground)) !important;
+  border-color: hsl(var(--border)) !important;
+}

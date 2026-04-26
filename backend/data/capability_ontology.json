@@ -1,0 +1,176 @@
+{
+  "trauma_center": {
+    "canonical": "trauma_center",
+    "label": "Trauma Center",
+    "category": "emergency_services",
+    "aliases": ["trauma", "Level I trauma", "Level II trauma", "trauma unit", "trauma centre", "accident & emergency", "A&E", "emergency surgery", "polytrauma"]
+  },
+  "stroke_unit": {
+    "canonical": "stroke_unit",
+    "label": "Stroke Unit",
+    "category": "emergency_services",
+    "aliases": ["stroke centre", "stroke center", "cerebrovascular unit", "neurovascular unit", "clot retrieval", "thrombectomy", "tPA therapy", "brain attack center", "stroke ward", "stroke management"]
+  },
+  "cardiac_emergency": {
+    "canonical": "cardiac_emergency",
+    "label": "Cardiac Emergency",
+    "category": "emergency_services",
+    "aliases": ["cath lab", "cardiac catheterization", "primary PCI", "angioplasty", "PTCA", "heart attack treatment", "cardiac intervention", "coronary care unit", "CCU", "cardiac cath lab", "24 hour cath lab"]
+  },
+  "poison_control": {
+    "canonical": "poison_control",
+    "label": "Poison Control",
+    "category": "emergency_services",
+    "aliases": ["toxicology", "poison unit", "snake bite", "drug overdose", "toxicology ward", "poison management"]
+  },
+  "icu_general": {
+    "canonical": "icu_general",
+    "label": "ICU (General)",
+    "category": "critical_care",
+    "aliases": ["intensive care", "ICU", "intensive care unit", "general ICU", "medical ICU", "MICU", "critical care unit", "ventilator support", "life support"]
+  },
+  "icu_cardiac": {
+    "canonical": "icu_cardiac",
+    "label": "Cardiac ICU",
+    "category": "critical_care",
+    "aliases": ["CCU", "CICU", "cardiac intensive care", "coronary intensive", "cardiac care unit", "post cardiac ICU"]
+  },
+  "icu_neuro": {
+    "canonical": "icu_neuro",
+    "label": "Neuro ICU",
+    "category": "critical_care",
+    "aliases": ["NICU brain", "neurological ICU", "neuro intensive", "neurocritical care", "brain ICU"]
+  },
+  "nicu": {
+    "canonical": "nicu",
+    "label": "Neonatal ICU",
+    "category": "critical_care",
+    "aliases": ["NICU", "neonatal intensive care", "newborn intensive care", "premature baby unit", "neonatal care unit", "level 3 nursery", "level III NICU", "neonatal ward", "neo natal", "incubator unit", "preterm care", "premature infant care"]
+  },
+  "picu": {
+    "canonical": "picu",
+    "label": "Pediatric ICU",
+    "category": "critical_care",
+    "aliases": ["PICU", "pediatric intensive care", "paediatric ICU", "children's ICU", "child intensive care"]
+  },
+  "mri": {
+    "canonical": "mri",
+    "label": "MRI",
+    "category": "diagnostics",
+    "aliases": ["3T MRI", "1.5T MRI", "magnetic resonance imaging", "MRI scanner", "Siemens MRI", "GE MRI", "Philips MRI", "whole body MRI", "MRI facility"]
+  },
+  "ct_scan": {
+    "canonical": "ct_scan",
+    "label": "CT Scan",
+    "category": "diagnostics",
+    "aliases": ["CAT scan", "computed tomography", "CT scanner", "64-slice CT", "128-slice CT", "256-slice CT", "CT facility", "HRCT"]
+  },
+  "pet_ct": {
+    "canonical": "pet_ct",
+    "label": "PET-CT",
+    "category": "diagnostics",
+    "aliases": ["positron emission tomography", "PET scan", "PET CT", "nuclear medicine", "oncology imaging"]
+  },
+  "cath_lab": {
+    "canonical": "cath_lab",
+    "label": "Cath Lab",
+    "category": "diagnostics",
+    "aliases": ["catheterization lab", "catheterisation lab", "cardiac catheterization laboratory", "cath lab", "angio suite", "angiography suite", "biplane cath lab"]
+  },
+  "pathology_lab": {
+    "canonical": "pathology_lab",
+    "label": "Pathology Lab",
+    "category": "diagnostics",
+    "aliases": ["lab", "diagnostics", "blood tests", "pathology department", "NABL lab", "clinical laboratory", "biochemistry lab", "haematology lab"]
+  },
+  "robotic_surgery": {
+    "canonical": "robotic_surgery",
+    "label": "Robotic Surgery",
+    "category": "surgery",
+    "aliases": ["da Vinci", "Mako system", "robotic assisted surgery", "robot surgery", "minimally invasive robot", "da Vinci Xi", "laparoscopic robot"]
+  },
+  "cardiac_surgery": {
+    "canonical": "cardiac_surgery",
+    "label": "Cardiac Surgery",
+    "category": "surgery",
+    "aliases": ["CABG", "bypass surgery", "heart surgery", "open heart surgery", "coronary artery bypass", "valve surgery", "aortic surgery", "bypass grafting"]
+  },
+  "neurosurgery": {
+    "canonical": "neurosurgery",
+    "label": "Neurosurgery",
+    "category": "surgery",
+    "aliases": ["brain surgery", "spine surgery", "neurosurgical unit", "craniotomy", "brain tumour surgery", "spinal surgery", "neurosurgical services"]
+  },
+  "transplant_kidney": {
+    "canonical": "transplant_kidney",
+    "label": "Kidney Transplant",
+    "category": "surgery",
+    "aliases": ["renal transplant", "kidney transplantation", "renal transplantation", "cadaveric kidney", "living donor kidney"]
+  },
+  "transplant_liver": {
+    "canonical": "transplant_liver",
+    "label": "Liver Transplant",
+    "category": "surgery",
+    "aliases": ["hepatic transplant", "liver transplantation", "living donor liver", "cadaveric liver", "liver surgery"]
+  },
+  "bariatric_surgery": {
+    "canonical": "bariatric_surgery",
+    "label": "Bariatric Surgery",
+    "category": "surgery",
+    "aliases": ["weight loss surgery", "obesity surgery", "gastric bypass", "sleeve gastrectomy", "bariatric unit"]
+  },
+  "high_risk_pregnancy": {
+    "canonical": "high_risk_pregnancy",
+    "label": "High-Risk Pregnancy",
+    "category": "maternity",
+    "aliases": ["MFM", "perinatology", "maternal fetal medicine", "high risk obstetrics", "complicated pregnancy", "antenatal care"]
+  },
+  "c_section_24x7": {
+    "canonical": "c_section_24x7",
+    "label": "24/7 C-Section",
+    "category": "maternity",
+    "aliases": ["emergency cesarean", "emergency C-section", "emergency caesarean", "24 hour caesarean", "obstetric emergency", "emergency delivery"]
+  },
+  "radiation_therapy": {
+    "canonical": "radiation_therapy",
+    "label": "Radiation Therapy",
+    "category": "cancer_care",
+    "aliases": ["radiotherapy", "linac", "linear accelerator", "TrueBeam", "Cyberknife", "IMRT", "IGRT", "stereotactic radiosurgery", "SRS", "SBRT", "brachytherapy", "gamma knife"]
+  },
+  "chemotherapy": {
+    "canonical": "chemotherapy",
+    "label": "Chemotherapy",
+    "category": "cancer_care",
+    "aliases": ["chemo", "infusion therapy", "oncology day care", "chemotherapy infusion", "cancer drug therapy", "medical oncology"]
+  },
+  "surgical_oncology": {
+    "canonical": "surgical_oncology",
+    "label": "Surgical Oncology",
+    "category": "cancer_care",
+    "aliases": ["cancer surgery", "tumour surgery", "oncosurgery", "surgical oncologist", "breast surgery", "colorectal cancer surgery"]
+  },
+  "dialysis": {
+    "canonical": "dialysis",
+    "label": "Dialysis",
+    "category": "specialty_services",
+    "aliases": ["haemodialysis", "hemodialysis", "kidney dialysis", "renal dialysis", "CAPD", "peritoneal dialysis", "AKI treatment", "renal replacement therapy", "dialysis unit", "dialysis centre"]
+  },
+  "blood_bank": {
+    "canonical": "blood_bank",
+    "label": "Blood Bank",
+    "category": "support_services",
+    "aliases": ["blood storage", "blood transfusion", "blood component", "FFP", "platelet storage", "licensed blood bank", "whole blood", "blood bank facility"]
+  },
+  "burn_unit": {
+    "canonical": "burn_unit",
+    "label": "Burns Unit",
+    "category": "specialty_services",
+    "aliases": ["burn care", "burns treatment", "burns ward", "burns ICU", "skin grafting", "burns centre", "burn management"]
+  },
+  "psychiatric_unit": {
+    "canonical": "psychiatric_unit",
+    "label": "Psychiatric Unit",
+    "category": "specialty_services",
+    "aliases": ["mental health", "psychiatry ward", "behavioral health", "psychiatric ward", "de-addiction", "mental health unit", "psychology services"]
+  }
+}
