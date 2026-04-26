@@ -193,20 +193,25 @@ export function runSearch({
   const trace = {
     step_1_query_decomposition: {
       input: query,
-      output: { capabilities: requiredCaps, location: loc.city || "Not provided", filters: { "24x7": need24x7 } }
+      output: { 
+        capabilities: requiredCaps, 
+        location: loc.city || "Not provided", 
+        need_24x7: need24x7 
+      },
+      reasoning: "Intent extracted via local NLP pattern matching."
     },
-    step_2_retrieval: {
-      chunks_retrieved_total: cleanResults.length * 3,
-      top_chunk_id: "local_memory_fallback",
-      top_chunk_source: cleanResults[0]?.source_excerpt || "Local fallback used."
+    step_2_vector_retrieval: {
+      facilities_found: cleanResults.length,
+      top_result: cleanResults[0]?.facility_name || "None",
+      engine: "Local In-Memory"
     },
-    step_3_trust_scorer: {
-      facilities_analyzed: scored.length,
-      lowest_trust_score: Math.min(...cleanResults.map(r => r.trust_score || 1.0), 1.0),
+    step_3_agentic_filtering: {
+      applied_filters: Object.keys(filters).join(", ") || "none",
+      confidence_threshold: minConf
     },
     step_4_final_answer: {
-      model: "Local In-Memory Engine",
-      reasoning: "Offline execution pattern matched."
+      model: "MediFind Local Agent",
+      reasoning: interpreted
     }
   };
 

@@ -41,6 +41,4 @@ __pycache__
 .antigravityignore
 
 # Hackathon Submission Exclusions (user requested)
-docs/DEMO_FRONTEND_VIDEO_SCRIPT.md
-docs/FLOWCHART_TECHNICAL.md
-docs/HACKATHON_TECHNICAL_SCRIPT.md
+docs/

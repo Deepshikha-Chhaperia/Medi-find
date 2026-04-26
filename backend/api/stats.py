@@ -20,7 +20,7 @@ def get_stats():
         state_breakdown = fetchall(conn,
             "SELECT state, COUNT(*) AS count FROM facilities WHERE state IS NOT NULL GROUP BY state ORDER BY count DESC")
         recent_queries = fetchone(conn,
-            "SELECT COUNT(*) AS n FROM search_queries WHERE created_at > NOW() - INTERVAL '24 hours'")
+            "SELECT COUNT(*) AS n FROM search_queries WHERE created_at > datetime('now', '-1 day')")
 
     return {
         "connected": True,
@@ -58,7 +58,7 @@ def capability_gaps():
                 SELECT DISTINCT fc.capability_id
                 FROM facility_capabilities fc
                 JOIN facilities f ON f.facility_id = fc.facility_id
-                WHERE f.district = %s
+                WHERE f.district = ?
             """, (dist_name,))
             present_ids = {r["capability_id"] for r in present}
             missing = [c for c in KNOWN_CAPS if c not in present_ids]
