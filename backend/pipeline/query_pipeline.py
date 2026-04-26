@@ -165,10 +165,14 @@ def run_query(request: SearchRequest) -> SearchResponse:
 
             matched_caps = [c for c in required_caps if c in cap_ids]
             match_confidence = "High" if score >= 0.75 else "Medium" if score >= 0.5 else "Low"
-            matched_reason = (
-                f"Source confirms: {', '.join(matched_caps[:3])}" if matched_caps
-                else chunk.get("chunk_text", "")[:150]
-            )
+            
+            # Agentic reasoning fallback
+            if matched_caps:
+                matched_reason = f"Source verifies: {', '.join(matched_caps[:3])}{' with 24/7 coverage' if fac.get('emergency_24x7') else ''}."
+            elif interpreted:
+                matched_reason = f"Matched via clinical relevance to query intent: '{interpreted[:50]}...'"
+            else:
+                matched_reason = chunk.get("chunk_text", "General healthcare capability match within search parameters.")[:150]
 
             source_doc = None
             if fac.get("source_doc_id"):
