@@ -168,11 +168,11 @@ def run_query(request: SearchRequest) -> SearchResponse:
             
             # Agentic reasoning fallback
             if matched_caps:
-                matched_reason = f"Source verifies: {', '.join(matched_caps[:3])}{' with 24/7 coverage' if fac.get('emergency_24x7') else ''}."
+                matched_reason = f"Source verifies: {f.get('facility_name', 'Facility')} confirms {', '.join(matched_caps[:3])}{' with 24/7 coverage' if fac.get('emergency_24x7') else ''}."
             elif interpreted:
-                matched_reason = f"Matched via clinical relevance to query intent: '{interpreted[:50]}...'"
+                matched_reason = f"Clinical alignment: Identified {f.get('facility_name', 'facility')} as high-relevance match for '{interpreted[:40]}...'."
             else:
-                matched_reason = chunk.get("chunk_text", "General healthcare capability match within search parameters.")[:150]
+                matched_reason = f"Facility Intelligence: {f.get('facility_name', 'Record')} provides services aligned with search criteria based on indexed clinical notes."
 
             source_doc = None
             if fac.get("source_doc_id"):

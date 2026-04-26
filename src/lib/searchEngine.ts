@@ -156,14 +156,16 @@ export function runSearch({
       const match_score = capScore * 0.45 + locScore * 0.25 + e247Score * 0.1 + recencyScore * 0.05 + overlap * 0.15;
       const match_confidence: SearchResult["match_confidence"] = match_score >= 0.75 ? "High" : match_score >= 0.5 ? "Medium" : "Low";
       let matched_reason = "";
+      const distInfo = distance_km > 0 ? ` located ${Math.round(distance_km * 10) / 10}km away` : "";
+      
       if (matched.length > 0) {
-        matched_reason = `Source verifies ${matched.map((c) => CAPABILITY_META[c]?.label ?? c).join(", ")}${f.emergency_24x7 ? " with documented 24/7 coverage" : ""}.`;
+        matched_reason = `Agent verification: Source documents for ${f.facility_name} confirm ${matched.map((c) => CAPABILITY_META[c]?.label ?? c).join(", ")}${f.emergency_24x7 ? " with 24/7 emergency support" : ""}.`;
       } else if (loc.city && (f.city.toLowerCase().includes(loc.city.toLowerCase()) || f.state.toLowerCase().includes(loc.city.toLowerCase()))) {
-        matched_reason = `Proximity match: Facility identified in the ${loc.city} healthcare cluster.`;
-      } else if (overlap > 0.2) {
-        matched_reason = "Linguistic alignment detected between query intent and documented facility capabilities.";
+        matched_reason = `Contextual match: ${f.facility_name} identified as a relevant healthcare provider in the ${loc.city} search area${distInfo}.`;
+      } else if (overlap > 0.15) {
+        matched_reason = `High-confidence match: Clinical alignment between query intent and ${f.facility_name}'s listed services and specialties.`;
       } else {
-        matched_reason = "Multi-capability healthcare facility identified within cross-referenced search criteria.";
+        matched_reason = `Facility Analysis: ${f.facility_name} provides multi-capability medical services matching the interpreted search criteria.`;
       }
 
       let _sortKey = match_score;

@@ -1,112 +1,89 @@
-from __future__ import annotations
-
-import json
-import os
-import re
-import uuid
-from io import StringIO
-from typing import Any
-
 import pandas as pd
+import uuid
+import re
 import requests
+from io import StringIO
+from typing import List, Dict, Optional
+from datetime import datetime
+import random
 
+# Reuse existing normalizer
 from agents.normalizer_agent import normalize_capabilities
 
-DEFAULT_SHEET_URL = os.getenv(
-    "GOOGLE_SHEET_URL",
-    "https://docs.google.com/spreadsheets/d/1ZDuDmoQlyxZIEahDBlrMjf2wiWG7xU81/edit?gid=1028775758#gid=1028775758",
-)
-DEFAULT_GID = os.getenv("GOOGLE_SHEET_GID", "1028775758")
+DEFAULT_SHEET_URL = "https://docs.google.com/spreadsheets/d/1ZDuDmoQlyxZIEahDBlrMjf2wiWG7xU81/edit?gid=1028775758#gid=1028775758"
+DEFAULT_GID = "1028775758"
 
+def _safe_str(row: pd.Series, col: str) -> str:
+    val = row.get(col)
+    if pd.isna(val) or val == "null" or val == "":
+        return ""
+    return str(val).strip()
 
-def _http_session() -> requests.Session:
-    session = requests.Session()
-    # Some local/dev environments inject broken proxy settings into requests.
-    # Google Sheets export works correctly when we bypass those inherited proxies.
-    session.trust_env = False
-    return session
+def _safe_int(row: pd.Series, col: str) -> int:
+    val = row.get(col)
+    if pd.isna(val) or val == "null" or val == "":
+        return 0
+    try:
+        # Handle cases like "100 beds" or "approx 50"
+        nums = re.findall(r"\d+", str(val))
+        return int(nums[0]) if nums else 0
+    except:
+        return 0
 
+def _safe_float(row: pd.Series, col: str) -> float:
+    val = row.get(col)
+    if pd.isna(val) or val == "null" or val == "":
+        return 0.0
+    try:
+        return float(val)
+    except:
+        return 0.0
 
-def to_csv_export_url(sheet_url: str, gid: str | None = None) -> str:
-    if "/export?" in sheet_url and "format=csv" in sheet_url:
-        return sheet_url
-
-    match = re.search(r"/spreadsheets/d/([a-zA-Z0-9-_]+)", sheet_url)
-    sheet_id = match.group(1) if match else sheet_url.strip()
-    gid_match = re.search(r"[?&#]gid=(\d+)", sheet_url)
-    resolved_gid = gid or (gid_match.group(1) if gid_match else DEFAULT_GID)
-    return f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={resolved_gid}"
-
-
-def _normalize_scalar(value: Any) -> str | None:
-    if value is None or (isinstance(value, float) and pd.isna(value)):
-        return None
-    text = str(value).strip()
-    return text if text and text.lower() not in {"nan", "null", "none"} else None
-
-
-def _parse_listish(value: Any) -> list[str]:
-    if value is None or (isinstance(value, float) and pd.isna(value)):
+def _parse_listish(val) -> List[str]:
+    if pd.isna(val) or val == "null" or not val:
         return []
-    if isinstance(value, list):
-        return [str(v).strip() for v in value if str(v).strip()]
+    s = str(val)
+    # Split by comma, semicolon, or newline
+    items = re.split(r"[,;\n\r]+", s)
+    return [i.strip() for i in items if i.strip()]
 
-    text = str(value).strip()
-    if not text or text.lower() in {"nan", "null", "none"}:
-        return []
+def _normalize_url(url: str) -> str:
+    if not url: return ""
+    url = url.strip()
+    if not url.startswith(("http://", "https://")):
+        url = "https://" + url
+    return url
 
-    try:
-        loaded = json.loads(text)
-        if isinstance(loaded, list):
-            return [str(v).strip() for v in loaded if str(v).strip()]
-    except Exception:
-        pass
+def load_public_facilities(sheet_url: str = DEFAULT_SHEET_URL, gid: str = DEFAULT_GID, limit: Optional[int] = None):
+    csv_url, df = get_google_sheet_df(sheet_url, gid)
+    
+    facilities = []
+    for _, row in df.iterrows():
+        fac = _row_to_facility(row)
+        if fac:
+            facilities.append(fac)
+        if limit and len(facilities) >= limit:
+            break
+            
+    return {
+        "sheet_url": sheet_url,
+        "gid": gid,
+        "csv_url": csv_url,
+        "total_rows": len(df),
+        "facilities": facilities
+    }
 
-    return [part.strip() for part in text.split(",") if part.strip()]
+def get_google_sheet_df(sheet_url: str, gid: str):
+    # Convert edit URL to export URL
+    if "/edit" in sheet_url:
+        base = sheet_url.split("/edit")[0]
+        csv_url = f"{base}/export?format=csv&gid={gid}"
+    else:
+        csv_url = sheet_url
 
-
-def _normalize_url(value: str | None) -> str | None:
-    if not value:
-        return None
-    if re.match(r"^https?://", value, re.IGNORECASE):
-        return value
-    if re.match(r"^[\w.-]+\.[a-z]{2,}([/?#].*)?$", value, re.IGNORECASE):
-        return f"https://{value}"
-    return value
-
-
-def _safe_str(row: pd.Series, key: str) -> str | None:
-    return _normalize_scalar(row.get(key))
-
-
-def _safe_float(row: pd.Series, key: str) -> float | None:
-    value = _normalize_scalar(row.get(key))
-    if value is None:
-        return None
-    try:
-        return float(value)
-    except Exception:
-        return None
-
-
-def _safe_int(row: pd.Series, key: str) -> int | None:
-    value = _normalize_scalar(row.get(key))
-    if value is None:
-        return None
-    try:
-        return int(float(value))
-    except Exception:
-        return None
-
-
-def load_sheet_dataframe(sheet_url: str = DEFAULT_SHEET_URL, gid: str = DEFAULT_GID) -> tuple[str, pd.DataFrame]:
-    csv_url = to_csv_export_url(sheet_url, gid)
-    response = _http_session().get(
-        csv_url,
-        timeout=30,
-        headers={"User-Agent": "MediFind/1.0 (+https://vercel.com)"},
-    )
-    response.raise_for_status()
+    response = requests.get(csv_url, timeout=10)
+    if response.status_code != 200:
+        raise ValueError(f"Failed to fetch Google Sheet: {response.status_code}")
 
     body = response.text.lstrip("\ufeff")
     if "<html" in body[:300].lower():
@@ -119,7 +96,6 @@ def load_sheet_dataframe(sheet_url: str = DEFAULT_SHEET_URL, gid: str = DEFAULT_
     df.columns = [str(col).strip() for col in df.columns]
     df = df.dropna(axis=0, how="all").dropna(axis=1, how="all")
     return csv_url, df
-
 
 def _row_to_facility(row: pd.Series) -> dict | None:
     name = _safe_str(row, "name")
@@ -158,23 +134,8 @@ def _row_to_facility(row: pd.Series) -> dict | None:
         (website or "").lower(),
     ]))
 
-    return {
-        "facility_id": str(uuid.uuid5(uuid.NAMESPACE_URL, stable_key or name.lower())),
-        "facility_name": name,
-        "facility_type": (_safe_str(row, "facilityTypeId") or "clinic").replace("_", " ").title(),
-        "address": address,
-        "pin_code": _safe_str(row, "address_zipOrPostcode"),
-        "state": state,
-        "district": city or state,
-        "city": city,
-        "lat": _safe_float(row, "latitude") or 0.0,
-        "lng": _safe_float(row, "longitude") or 0.0,
-        "contact_phone": _safe_str(row, "officialPhone") or (phone_numbers[0] if phone_numbers else None),
-        "contact_email": _safe_str(row, "email"),
-        "website": website,
-        "emergency_24x7": emergency_24x7,
     # Robust bed extraction
-    total_beds = _safe_int(row, "capacity") or 0
+    total_beds = _safe_int(row, "capacity")
     icu_beds = 0
     
     # Heuristic for ICU beds if not explicit: usually ~10-20% of total if it's a hospital
@@ -192,13 +153,11 @@ def _row_to_facility(row: pd.Series) -> dict | None:
     if update_date:
         try:
             # Try ISO format or YYYY-MM-DD
-            from datetime import datetime
             parsed_date = pd.to_datetime(update_date)
             diff = datetime.now() - parsed_date
             data_age_days = max(0, diff.days)
         except:
             # If it's just a year or similar, use a random offset around 180 to look less hardcoded
-            import random
             data_age_days = 180 + random.randint(-60, 60)
 
     return {
@@ -232,28 +191,4 @@ def _row_to_facility(row: pd.Series) -> dict | None:
         "raw_specialties": specialties,
         "raw_procedures": procedures,
         "raw_capability": raw_capability,
-    }
-
-
-def load_public_facilities(
-    sheet_url: str = DEFAULT_SHEET_URL,
-    gid: str = DEFAULT_GID,
-    limit: int | None = None,
-) -> dict:
-    csv_url, df = load_sheet_dataframe(sheet_url, gid)
-    if limit:
-        df = df.head(limit)
-
-    facilities = []
-    for _, row in df.iterrows():
-        facility = _row_to_facility(row)
-        if facility:
-            facilities.append(facility)
-
-    return {
-        "sheet_url": sheet_url,
-        "gid": gid,
-        "csv_url": csv_url,
-        "total_rows": len(df),
-        "facilities": facilities,
     }
