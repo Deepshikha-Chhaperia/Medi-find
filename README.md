@@ -2,8 +2,6 @@
 
 MediFind is an AI-powered healthcare facility discovery platform that ingests messy healthcare data, extracts capabilities, and returns ranked, explainable results for urgent care search.
 
-Keywords: healthcare AI, agentic RAG, hospital search engine, medical capability discovery, FastAPI, React, pgvector, hackathon project.
-
 ## Why This Project Matters
 
 In emergency situations, people lose time figuring out which facility can actually handle a specific case. MediFind converts fragmented source data into actionable facility intelligence so users can find relevant care faster.
