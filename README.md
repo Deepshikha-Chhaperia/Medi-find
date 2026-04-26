@@ -43,31 +43,31 @@ In emergency situations, people lose time figuring out which facility can actual
 ## Product Features
 
 - Search flow:
-   - natural language query input,
-   - location-aware radius and sorting,
-   - confidence labels,
-   - capability and trust context.
+   - natural language query input
+   - location-aware radius and sorting
+   - confidence labels
+   - capability and trust context
 
 
 - Results and map flow:
-   - split list and map UI,
-   - treatment (capability) filtering,
-   - 24/7 and facility-type filtering,
-   - directions and contact shortcuts.
+   - split list and map UI
+   - treatment (capability) filtering
+   - 24/7 and facility-type filtering
+   - directions and contact shortcuts
 
 
 - Facility intelligence flow:
-   - detailed profile with capabilities,
-   - source excerpt,
-   - trust score and flags,
-   - equipment and metadata coverage.
+   - detailed profile with capabilities
+   - source excerpt
+   - trust score and flags
+   - equipment and metadata coverage
 
 
 - Admin and ingestion flow:
-   - file upload ingestion,
-   - Google Sheet ingestion trigger,
-   - ingestion job progress,
-   - source provenance panel (rows fetched/inserted/failed).
+   - file upload ingestion
+   - Google Sheet ingestion trigger
+   - ingestion job progress
+   - source provenance panel (rows fetched/inserted/failed)
 
 ## Configured Source Dataset
 
